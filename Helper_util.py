@@ -17,18 +17,43 @@ def pattern_matching(url):
     response = requests.get(url);
     page = response.text
     print response
-    soup = BeautifulSoup(page, 'lxml');
-    actor_segment = soup.find_all("td", attrs={"class": "result_text"})
-    relevant_actor = actor_segment[0].find('a')['href']
+    soup = BeautifulSoup( page, 'lxml');
+    actor_segment = soup.find( "td", attrs={"class": "result_text"} )
+    relevant_actor = actor_segment.find( 'a' )['href']
+    # actor_segment = soup.find_all("td", attrs={"class": "result_text"})
+    # relevant_actor = actor_segment[0].find('a')['href']
     # create actor url
-    actor_url = "http://www.imdb.com/" + relevant_actor
-    # print actor_segment
+    actor_url = "http://www.imdb.com" + relevant_actor + "#actor"
     print actor_url
-    print relevant_actor
+    return actor_url
+    # print relevant_actor
     """" This Function Used to fetch the Actor name and parse to URL to Search """
 
 
-pattern_matching(get_actor_url());
+# pattern_matching(get_actor_url())
+
+
+def filmography(url):
+    response = requests.get(url);
+    page = response.text
+    soup1 = BeautifulSoup(page, 'lxml');
+    print response
+    # movie_segment = soup1.select_one(".filmo-head-actor")
+    movie_segment = soup1.find("div",attrs={"id":"filmo-head-actor"})
+    print movie_segment.find_next_sibling("div")
+    #print movie_segment
+
+    # for strong_tag in soup1.find( "div",attrs={"id":"filmo-head-actor"}):
+    #     print strong_tag.next_sibling
+
+    # print strong_tag.next_sibling
+    # segmented = movie_segment.soup1.get_text('div')
+    # print movie_segment
+    # print segmented
+    """" This Function Used to fetch the list Number movies & Director Done by this Actor """
+
+
+filmography(pattern_matching(get_actor_url()))
 
 # def urlfetching(segmet1):
 #     response = str(segment1)
