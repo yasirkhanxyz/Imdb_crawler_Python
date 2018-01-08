@@ -1,6 +1,9 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+import colorama
+from colorama import Fore, Back, Style
+colorama.init()
 
 global actors_name
 
@@ -17,7 +20,8 @@ def get_actor_url():
     endfix = '&s=all'
     actors_name1 = actors_name.replace( " ", "+" )
     get_search_list_url = "http://www.imdb.com/find?ref_=nv_sr_fn&q=" + actors_name1 + endfix
-    print "Stage 1 Url :" + get_search_list_url
+    print(Fore.RED + "Stage 1 Url :" + get_search_list_url)
+    # print "Stage 1 Url :" + get_search_list_url
     return get_search_list_url
 
 
@@ -32,7 +36,15 @@ def pattern_matching(url):
     actor_segment = soup.find( "td", attrs={"class": "result_text"} )
     relevant_actor = actor_segment.find( 'a' )['href']
     actor_url = "http://www.imdb.com" + relevant_actor + "#actor"
+    part1="http://www.imdb.com" + relevant_actor
     print "Stage 2 Url :" + actor_url
+    # print part1
+    # response1 = requests.get(part1);
+    # page2 = response1.text
+    # soup3 = BeautifulSoup( page2, 'lxml' );
+    # # print soup3
+    # view = soup3.find( "span", attrs={"itemprop": "name"} ).get_text()
+    # print view
     return actor_url
 
 
@@ -49,7 +61,18 @@ def filmography(url):
     m = re.search( 'Actor \((.+?)credits', movie_no )
     if m:
         found = m.group( 1 )
-    print actors_name + " Has worked in "+ found + " Movies as an actor."
+
+    response1 = requests.get(url);
+    page2 = response1.text
+    soup3 = BeautifulSoup( page2, 'lxml' );
+    # print soup3
+    view = soup3.find( "span", attrs={"itemprop": "name"} ).get_text()
+    # print(Back.GREEN + text + Style.RESET_ALL)
+    print (Back.BLACK + "Currently you are viewing profile of : "  + Style.RESET_ALL)+ (Fore.GREEN + view + Style.RESET_ALL )
+    print actors_name + " Has worked in " + (Fore.GREEN + found + Style.RESET_ALL ) + "Movies as an actor."
+
+
+
 
     # print movie_segment
     #print movie_segment.find_next_sibling("div")
