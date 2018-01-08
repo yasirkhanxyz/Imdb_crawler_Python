@@ -2,57 +2,63 @@ from bs4 import BeautifulSoup
 import requests
 import re
 
+global actors_name
+
+def get_actor():
+     actors_name = raw_input( "Enter Hero Name :" )
+     return actors_name
+
+
+"""" This Function Used to Take input Actor name and can be used as global variable """
+
 
 def get_actor_url():
-    actors_name = raw_input( "Enter Hero Name :" )
+
     endfix = '&s=all'
     actors_name1 = actors_name.replace( " ", "+" )
     get_search_list_url = "http://www.imdb.com/find?ref_=nv_sr_fn&q=" + actors_name1 + endfix
-    print get_search_list_url
+    print "Stage 1 Url :" + get_search_list_url
     return get_search_list_url
+
+
     """" This Function Used to fetch the Actor name and parse to URL to Search """
 
 
 def pattern_matching(url):
     response = requests.get(url);
     page = response.text
-    print response
+    #print response
     soup = BeautifulSoup( page, 'lxml');
     actor_segment = soup.find( "td", attrs={"class": "result_text"} )
     relevant_actor = actor_segment.find( 'a' )['href']
-    # actor_segment = soup.find_all("td", attrs={"class": "result_text"})
-    # relevant_actor = actor_segment[0].find('a')['href']
-    # create actor url
     actor_url = "http://www.imdb.com" + relevant_actor + "#actor"
-    print actor_url
+    print "Stage 2 Url :" + actor_url
     return actor_url
-    # print relevant_actor
+
+
     """" This Function Used to fetch the Actor name and parse to URL to Search """
-
-
-# pattern_matching(get_actor_url())
 
 
 def filmography(url):
     response = requests.get(url);
     page = response.text
     soup1 = BeautifulSoup(page, 'lxml');
-    print response
-    # movie_segment = soup1.select_one(".filmo-head-actor")
-    movie_segment = soup1.find("div",attrs={"id":"filmo-head-actor"})
-    print movie_segment.find_next_sibling("div")
-    #print movie_segment
+    movie_segment = soup1.find("div",attrs={"id":"filmo-head-actor"}).get_text()
+    x = movie_segment.splitlines()
+    movie_no = x[-1]
+    m = re.search( 'Actor \((.+?)credits', movie_no )
+    if m:
+        found = m.group( 1 )
+    print actors_name + " Has worked in "+ found + " Movies as an actor."
 
-    # for strong_tag in soup1.find( "div",attrs={"id":"filmo-head-actor"}):
-    #     print strong_tag.next_sibling
-
-    # print strong_tag.next_sibling
-    # segmented = movie_segment.soup1.get_text('div')
     # print movie_segment
-    # print segmented
+    #print movie_segment.find_next_sibling("div")
+
+
     """" This Function Used to fetch the list Number movies & Director Done by this Actor """
 
 
+actors_name = raw_input( "Enter Hero Name :")
 filmography(pattern_matching(get_actor_url()))
 
 # def urlfetching(segmet1):
