@@ -72,17 +72,28 @@ def filmography(url):
     print actors_name + " Has worked in " + (Fore.GREEN + found + Style.RESET_ALL ) + "Movies as an actor."
 
 
-
-
-    # print movie_segment
-    #print movie_segment.find_next_sibling("div")
-
-
     """" This Function Used to fetch the list Number movies & Director Done by this Actor """
 
+def movie_listing(url):
+    response = requests.get(url);
+    page = response.text
+    soup = BeautifulSoup( page, 'lxml' );
+    movie_list = soup.find( "div", attrs={"data-category": "actor"}).find_next_sibling("div").find("div")
+    return movie_list.find_all('a')
+    # print(movie_list.get('b'))
+    # movie_list = soup.find( "div", attrs={"data-category": "actor"}).find_next_sibling("div").find("a")
+    # find all tag and then get by attribute
+    # print relevant_list
+
+# print movie_segment
+# print movie_segment.find_next_sibling("div")
 
 actors_name = raw_input( "Enter Hero Name :")
 filmography(pattern_matching(get_actor_url()))
+movielist = movie_listing(pattern_matching(get_actor_url()))
+# print movielist
+for movie in movielist:
+    print movie
 
 # def urlfetching(segmet1):
 #     response = str(segment1)
@@ -112,3 +123,12 @@ filmography(pattern_matching(get_actor_url()))
 # #find all tag and then get by attribute
 # for movie in soup.find_all('a href'):
 #     print (movie.get('b'))
+
+
+# runLoop = 1
+# while runLoop:
+#     x1 = soup.find( "div", attrs={"data-category": "actor"} ).find_next_sibling( "div" ).find( "b" )
+#     if x1 is not None:
+#         print (x1.get( 'a' ))
+#     else:
+#         runLoop = 0
