@@ -78,8 +78,18 @@ def movie_listing(url):
     response = requests.get(url);
     page = response.text
     soup = BeautifulSoup( page, 'lxml' );
-    movie_list = soup.find( "div", attrs={"data-category": "actor"}).find_next_sibling("div").find("div")
-    return movie_list.find_all('a')
+    movie_list = soup.find( "div", attrs={"data-category": "actor"}).find_next_sibling("div").find_all("div")
+    # print movie_list
+    a = []
+    for movie in movie_list:
+        print movie.find('a')['href'];
+        a += movie.find_all('a')
+
+    for movie_name in a:
+        movies=soup.find( 'a' )['href']
+        print movies
+
+    # return a
     # print(movie_list.get('b'))
     # movie_list = soup.find( "div", attrs={"data-category": "actor"}).find_next_sibling("div").find("a")
     # find all tag and then get by attribute
@@ -91,9 +101,10 @@ def movie_listing(url):
 actors_name = raw_input( "Enter Hero Name :")
 filmography(pattern_matching(get_actor_url()))
 movielist = movie_listing(pattern_matching(get_actor_url()))
-# print movielist
-for movie in movielist:
-    print movie
+#print movielist[1]
+
+# for movie in movielist:
+#     print movie
 
 # def urlfetching(segmet1):
 #     response = str(segment1)
