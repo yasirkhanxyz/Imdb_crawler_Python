@@ -80,15 +80,48 @@ def movie_listing(url):
     soup = BeautifulSoup( page, 'lxml' );
     movie_list = soup.find( "div", attrs={"data-category": "actor"}).find_next_sibling("div").find_all("div")
     # print movie_list
+    Tv_list = soup.find("div", attrs={"data-category": "actor"}).find_next_sibling("div").find_all("div", attrs={"class": "filmo-episodes"})
+    # print Tv_list
+
     a = []
     for movie in movie_list:
-        print movie.find('a')['href'];
-        a += movie.find_all('a')
+        anchorArray = movie.find_all( "a")
+        if len( anchorArray ) > 0:
+            a += anchorArray
+    # print a
 
-    for movie_name in a:
-        movies=soup.find( 'a' )['href']
-        print movies
+    for index in range( len( a ) ):
+        print(index, a[index].get('href'))
 
+
+    # h = []
+    # for link in a:
+    #     movielinks =soup.find('href')
+    #     if len( movielinks ) > 0:
+    #         h += movielinks
+    #     print movielinks
+    print len( a )
+        #print movie.find('a').get('href')
+        # contents1 = movie.text
+        # print contents
+        # relevant_actor = actor_segment.find( 'a' )['href']
+
+            # print a[90:95]
+        # a = []
+    # print a
+    # print len(a)
+    # b = []
+    # for series in Tv_list:
+    #     print series.find('a').get('href')
+    #     # contents2 = series.text
+    #     # print contents2
+    #     b += series.find_all('a')
+
+    # for movie_name in a:
+    #     movies=soup.find( 'a' )['href']
+    #     print movies
+
+    #     print(a['href'], a.get_text(strip=True))
     # return a
     # print(movie_list.get('b'))
     # movie_list = soup.find( "div", attrs={"data-category": "actor"}).find_next_sibling("div").find("a")
