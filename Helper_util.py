@@ -83,45 +83,27 @@ def movie_listing(url):
     Tv_list = soup.find("div", attrs={"data-category": "actor"}).find_next_sibling("div").find_all("div", attrs={"class": "filmo-episodes"})
     # print Tv_list
 
+
     a = []
     for movie in movie_list:
-        anchorArray = movie.find_all( "a")
+        anchorArray = movie.find_all( 'a', href= True)
         if len( anchorArray ) > 0:
             a += anchorArray
-    # print a
-
-    for index in range( len( a ) ):
-        print(index, a[index].get('href'))
-
-
-    # h = []
-    # for link in a:
-    #     movielinks =soup.find('href')
-    #     if len( movielinks ) > 0:
-    #         h += movielinks
-    #     print movielinks
+    # print a[34]
     print len( a )
-        #print movie.find('a').get('href')
-        # contents1 = movie.text
-        # print contents
-        # relevant_actor = actor_segment.find( 'a' )['href']
+    # 'a' gives you the list of the "a" <tag> than we need to fetch href so we passing to created_movie_url
+    created_movie_url = []
+    for index in range( len( a ) ):
+        created_movie_url.append("http://www.imdb.com"+a[index].get('href'))
+        # print(index, "http://www.imdb.com"+a[index].get('href'))
+    print created_movie_url[34]
 
-            # print a[90:95]
-        # a = []
-    # print a
-    # print len(a)
-    # b = []
-    # for series in Tv_list:
-    #     print series.find('a').get('href')
-    #     # contents2 = series.text
-    #     # print contents2
-    #     b += series.find_all('a')
+    # 'created_movie_url' is giving the url of each movie of the actor.Need to pass it to Url to fetch rating
 
-    # for movie_name in a:
-    #     movies=soup.find( 'a' )['href']
-    #     print movies
 
-    #     print(a['href'], a.get_text(strip=True))
+
+
+
     # return a
     # print(movie_list.get('b'))
     # movie_list = soup.find( "div", attrs={"data-category": "actor"}).find_next_sibling("div").find("a")
@@ -134,27 +116,6 @@ def movie_listing(url):
 actors_name = raw_input( "Enter Hero Name :")
 filmography(pattern_matching(get_actor_url()))
 movielist = movie_listing(pattern_matching(get_actor_url()))
-#print movielist[1]
-
-# for movie in movielist:
-#     print movie
-
-# def urlfetching(segmet1):
-#     response = str(segment1)
-#     soup = BeautifulSoup(patternmatching(segment1)),"lxml");
-#     actoredsnip = soup.find_all("a")
-#     print actoredsnip
-
-
-# actoredurl=soup.find_all('a')
-
-# soup.find_all( "a", attrs={"class": "sister"} )
-# for actored in soup.find_all( "a", class_="findList" ):
-#     print(actored.get( "a" ))
-# for actor in soup.find_all('a href'):
-#  print(actor.get("b"))
-# find_all('title', limit=1)
-# td class="primary_photo"
 
 
 # print soup
