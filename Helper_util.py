@@ -31,7 +31,7 @@ def get_actor_url():
 def pattern_matching(url):
     response = requests.get(url);
     page = response.text
-    #print response
+    # print response
     soup = BeautifulSoup( page, 'lxml');
     actor_segment = soup.find( "td", attrs={"class": "result_text"} )
     relevant_actor = actor_segment.find( 'a' )['href']
@@ -90,17 +90,41 @@ def movie_listing(url):
         if len( anchorArray ) > 0:
             a += anchorArray
     # print a[34]
-    print len( a )
+    # print len( a )
     # 'a' gives you the list of the "a" <tag> than we need to fetch href so we passing to created_movie_url
     created_movie_url = []
     for index in range( len( a ) ):
         created_movie_url.append("http://www.imdb.com"+a[index].get('href'))
         # print(index, "http://www.imdb.com"+a[index].get('href'))
-    print created_movie_url[34]
 
-    # 'created_movie_url' is giving the url of each movie of the actor.Need to pass it to Url to fetch rating
+    valid_url1 = []
+    sub = 'pro'
+    for valid_url in created_movie_url:
+        if sub not in valid_url:
+            valid_url1.append(valid_url)
+            # print(valid_url1)
 
+    valid_url_fetched = []
+    hashexclusion = '#'
+    for valid_url2 in valid_url1:
+        if hashexclusion not in valid_url2:
+            valid_url_fetched.append(valid_url2)
+    # print(valid_url_fetched)
 
+    # 'valid_url_fetched' is giving the url of each movie of the actor.Need to pass it to Url to fetch rating
+
+    h=[]
+    for rating in valid_url_fetched:
+        print rating
+        response = requests.get(rating);
+        print response
+        page = response.text
+        soupr = BeautifulSoup( page, 'lxml' );
+        try:
+            movie_rating = soupr.find( "span", attrs={"itemprop": "ratingValue"} ).get_text()
+        except AttributeError:
+            print "Not found"
+        print movie_rating
 
 
 
