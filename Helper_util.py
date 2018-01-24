@@ -124,7 +124,7 @@ def movie_listing(url):
 
     print (Back.BLACK + "Average Rating of " + Style.RESET_ALL)+actors_name +":" + (Fore.GREEN + str(average1)+ Style.RESET_ALL)
     print (Back.BLACK + "maximum Rating of " + Style.RESET_ALL)+actors_name +" is :" + (Fore.GREEN + str(max_rate)+ Style.RESET_ALL)
-    print (Back.BLACK + "maximum Rating of " + Style.RESET_ALL)+actors_name +" is :" + (Fore.GREEN + str(min_rate)+ Style.RESET_ALL)
+    print (Back.BLACK + "Minimum Rating of " + Style.RESET_ALL)+actors_name +" is :" + (Fore.GREEN + str(min_rate)+ Style.RESET_ALL)
 
 
 
